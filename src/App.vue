@@ -1,9 +1,11 @@
 <template>
   <!-- 抽奖的游戏机台 -->
+<div class="wheel-framework-wrap">
   <div class="framework-wrap">
-    <img src="../src/assets/framework-small-300.png" alt="">
+    <img src="../src/assets/framework.png" alt="">
   </div>
   
+  <div class="wheel-wrap-wrap">
   <!-- 抽奖转盘 -->
   <div class="wheel-wrap" :style="`transform: rotate(${wheelDeg}deg)`">
     <!-- v-for循环根据奖品信息生成对应角度的扇形并放置红包黄包 -->
@@ -30,6 +32,8 @@
  @@@@@@@@@@@@@@@*       -*@@@@@@-                            .-         @@@@@@@@%=.       
  *##############+ ..:=+#########:                                       @@@%#+-.          
                                                                                            -->
+
+  
     <div v-for="(item, index) in prizeInfo" :key="index">
       <!-- 生成半圆的矩形，即上图右边的矩形 -->
       <div class="sector" :style=this.initializeRotateDegree(index)>
@@ -45,8 +49,8 @@
           <span class="prizeText"
           :style="`
           transform: 
-          translateX(${10*(prizeInfo.length+1)-75}px) 
-          translateY(${-10*(prizeInfo.length+1)+75}px) 
+          translateX(${10*(prizeInfo.length+1)-80}px) 
+          translateY(${-10*(prizeInfo.length+1)+80}px) 
           rotate(${-180/(prizeInfo.length+1)}deg)
           `">现金</span>
           <!-- 扇形里的红包图片 -->
@@ -55,8 +59,8 @@
           <div class="img-group"
           :style="`
           transform: 
-          translateX(${10*(prizeInfo.length+1)-60}px) 
-          translateY(${-5*(prizeInfo.length+1)+45}px) 
+          translateX(${10*(prizeInfo.length+1)-65}px) 
+          translateY(${-5*(prizeInfo.length+1)+50}px) 
           rotate(${-180/(prizeInfo.length+1)}deg)
           `">
           <!-- 成品为红色黄色红包相间，故判断奇偶 -->
@@ -72,15 +76,15 @@
           <span class="prizeText"
           :style="`
           transform: 
-          translateX(${10*(prizeInfo.length+1)-75}px) 
-          translateY(${-10*(prizeInfo.length+1)+75}px) 
+          translateX(${10*(prizeInfo.length+1)-80}px) 
+          translateY(${-10*(prizeInfo.length+1)+80}px) 
           rotate(${-180/(prizeInfo.length+1)}deg)
           `">现金</span>
           <div class="img-group"
           :style="`
           transform: 
-          translateX(${10*(prizeInfo.length+1)-60}px) 
-          translateY(${-5*(prizeInfo.length+1)+45}px) 
+          translateX(${10*(prizeInfo.length+1)-65}px) 
+          translateY(${-5*(prizeInfo.length+1)+50}px) 
           rotate(${-180/(prizeInfo.length+1)}deg)
           `">
             <img class="envelope" v-if="index%2==0" src="../src/assets/redEnvelope.png">
@@ -109,7 +113,7 @@
           :style="`
           transform: 
           translateX(${10*(prizeInfo.length+1)-60}px) 
-          translateY(${-5*(prizeInfo.length+1)+50}px) 
+          translateY(${-5*(prizeInfo.length+1)+55}px) 
           rotate(${-180/(prizeInfo.length+1)}deg)
           `">
             <img class="envelope" src="../src/assets/thank.png">
@@ -129,7 +133,7 @@
           :style="`
           transform: 
           translateX(${10*(prizeInfo.length+1)-60}px) 
-          translateY(${-5*(prizeInfo.length+1)+50}px) 
+          translateY(${-5*(prizeInfo.length+1)+55}px) 
           rotate(${-180/(prizeInfo.length+1)}deg)
           `">
             <img class="envelope" src="../src/assets/thank.png">
@@ -137,18 +141,18 @@
         </div>
       </div>
   </div>
+  </div>
+</div>
+<div class="light-wrap">
   <!-- 转盘周围无限闪烁的装饰灯 -->
   <!-- 装饰灯颜色白红相间，故判断奇偶 -->
   <!-- lightSum设置灯数量，默认为20，如果需要根据奖品数量更改可添加methods -->
-  <div v-for="index in this.lightSum" :key="index">
-    <div class="light-wrap" :style=this.initializeLightDegree(index)>
-      <div v-if="index%2==0" id="circle-even" ></div>
-      <div v-else id="circle-odd"></div>
-    </div>  
-  </div>
+    <img id="light" src="../src/assets/light-background.png">
+</div>
+
   <!-- 可点击的抽奖指针 -->
   <div @click="onClickRotate" class="pointer-wrap">
-      <img src="../src/assets/pointer2.png" alt="">
+      <img src="../src/assets/pointer.png" alt="">
   </div>
   <!-- 跳转服务端按钮 -->
   <a href="https://qc4dgz.web.cloudendpoint.cn/">
@@ -156,12 +160,14 @@
     服务端
     </button>
   </a>
+
   <!-- 中奖信息弹出的窗口，包括出现于消失动画 -->
   <!-- fade transition为遮罩层（即背景变暗） -->
   <!-- 使用数据showModal判断是否弹出中奖页面 -->
  <transition name="fade" appear>
   <div class="modal-overlay" v-if="showModal" @click="showModal = false"></div>
  </transition>
+ <div class="modal-wrap">
   <div v-if="showModal">
     <!-- 观察给定demo，发现中奖页面主元素包括红包和红包中的纸，
     以及辅元素背景光晕、铜钱、纸币。
@@ -191,6 +197,7 @@
     <img id="right-icon" class="right-icon" src="../src/assets/right-icon.png">
     <img id="glow-circle" class="glow-circle" src="../src/assets/glow-circle.png">
   </div>
+</div>
 </template>
 
 <script>
@@ -375,16 +382,36 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+body{
+  background:linear-gradient(to right, #ff9966, #ff5e62); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */;
+}
+
+
+.wheel-framework-wrap{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+}
+
 
 .framework-wrap{
-  position: absolute; left: 50%; top: 45.1%;
-  transform: translate(-50%, -50%);
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%) scale(3);
   z-index: 10;
 }
 
+.wheel-wrap-wrap{
+  position: relative;
+  left: 50%;
+  top: -300px;
+  transform: translate(-50%,-50%) scale(3)
+}
 .wheel-wrap{
   transform-origin: 0px 100px;
-  position: absolute; left: 50%; top: 30%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
   transform: translate(-50%, -50%);
   transition: transform 5s ease-in-out;
 }
@@ -439,61 +466,34 @@ export default {
 }
 
 .light-wrap{
-  position: absolute;
-  width: 100px;
-  height: 240px;
-  border-radius: 0px 100px 100px 0;
-  overflow: hidden;
-  transform-origin: left center;
-  /* left: 38%; top: 30%; */
-  left:50%; top: 27.3%;
-  transform: translate(-50%, -50%);
+  /* color: black; */
   z-index: 30;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%) scale(3);
 }
-#circle-even{
-height: 5px;;
-width:5px;
-border-radius: 5px;
-opacity: 1;
-
-animation: pulsate-even 1000ms ease-out;
-animation-iteration-count: infinite; 
-transition: background-color 300ms linear;
+#light{
+    animation: light-switch 1000ms;
+    animation-iteration-count: infinite; 
 }
-#circle-odd{
-height: 5px;;
-width:5px;
-border-radius: 5px;
-opacity: 1;
-
-animation: pulsate-odd 1000ms ease-out;
-animation-iteration-count: infinite; 
--webkit-transition: background-color 300ms linear;
-transition: background-color 300ms linear;
-}
-@keyframes pulsate-odd {
-0% {background: #f93d54;}
-45% {background:#f93d54;}
-50% {background:white;}
-100% {background:white;}
-}
-@keyframes pulsate-even {
-100% {background: #f93d54;}
-50% {background:#f93d54;}
-45% {background:white;}
-0% {background:white;}
+@keyframes light-switch {
+0% {background: url(../src/assets/light.png);}
+45% {background:url(../src/assets/light.png);}
+50% {background:url(../src/assets/light2.png);}
+100% {background:url(../src/assets/light2.png);}
 }
 
 .pointer-wrap{
   overflow: hidden;
-  transform-origin: left center;
-  position: absolute; left: 50%; top: 42%;
-  transform: translate(-50%, -50%);
+  /* transform-origin: left center; */
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%) scale(3);
   z-index:30;
 }
 
 .button {
-  position: relative;
+ position: relative;
  appearance: none;
  outline: none;
  border: none;
@@ -501,12 +501,12 @@ transition: background-color 300ms linear;
  cursor: pointer;
  /* display: inline-flex; */
  display: inline-block;
- padding: 15px 25px;
+ padding: 50px 75px;
  background-image: linear-gradient(to right, #CC2E5D, #FF5858);
- border-radius: 8px;
+ border-radius: 25px;
  
  color: #FFF;
- font-size: 18px;
+ font-size: 50px;
  font-weight: 700;
  
  box-shadow: 3px 3px rgba(0, 0, 0, 0.4);
@@ -515,7 +515,7 @@ transition: background-color 300ms linear;
 }
 .close{
   position: absolute; left: 50%; top: 45.1%;
-  transform: translateX(-50%) translateY(35vh);
+  transform: translateX(-50%) translateY(10vh);
   appearance: none;
   outline: none;
   border: none;
@@ -530,8 +530,8 @@ transition: background-color 300ms linear;
   z-index: 95;
 }
 @keyframes close-button-enter {
-  0% {transform: translate(-50%, 20vh);}
-  100% {transform: translate(-50%, 35vh);}
+  0% {transform: translate(-50%, 5vh);}
+  100% {transform: translate(-50%, 10vh);}
 }
 
 
@@ -542,7 +542,8 @@ transition: background-color 300ms linear;
  right: 0;
  bottom: 0;
  z-index: 80;
- background-color: rgba(0, 0, 0, 0.3);
+ background-color: rgba(0, 0, 0, 0.6);
+
 }
 .fade-enter-active
 /* .fade-leave-active { */
@@ -570,7 +571,7 @@ transition: background-color 300ms linear;
   z-index: 90;
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 49%;
   transform: translate(-50%,-50%);
 }
 .lottery-window-front{
@@ -642,7 +643,7 @@ transition: background-color 300ms linear;
 .right-icon{
  z-index: 90;
   position: absolute;
-  left: 50%;
+  left: 49%;
   top: 50%;
   transform: translate(-40%,-55%);
 }
@@ -663,4 +664,12 @@ transition: background-color 300ms linear;
   70% {opacity: 1; transform:translate(-50%,-50%) scale(1.8);}
   100% {opacity: 0; transform: translate(-50%,-50%) scale(1.9);}
 }
+.modal-wrap{
+  z-index: 85;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%) scale(2);
+}
+
 </style>
