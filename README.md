@@ -4,9 +4,13 @@
 
 使用VUE和轻服务实现一个6个奖项，可以点击转动抽奖的抽奖转盘，转盘历经5秒转速逐渐降低直至停止，抽出奖品，包含Web端和Server端。此仓库为Web端。
 
+<<<<<<< HEAD
+展示地址：https://qciwmk.web.cloudendpoint.cn/
+=======
 
 
 [客户端地址]: https://qciwmk.web.cloudendpoint.cn/
+>>>>>>> 154fb1de65d36a5e4a32c1b758cc577001bb3290
 
 ## 用户需求·Web
 
